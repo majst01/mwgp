@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"golang.zx2c4.com/wireguard/device"
 	"log"
-	"math/rand"
 	"net"
 	"sync"
 	"sync/atomic"
@@ -580,8 +579,11 @@ func (t *WireGuardIndexTranslationTable) generateProxyIndexLocked(m map[uint32]*
 	}
 
 	// proxy index also cannot be 0, since the zero-value indicates the peer is not yet initialized
-	for _, ok := m[proxy]; ok || proxy == 0; {
-		proxy = rand.Uint32()
+	for {
+		if _, ok := m[proxy]; !ok && proxy != 0 {
+			break
+		}
+		proxy++
 	}
 	return
 }

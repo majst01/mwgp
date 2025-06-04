@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/haruue-net/mwgp"
 	"github.com/spf13/cobra"
@@ -29,8 +30,10 @@ var serverCmd = cobra.Command{
 	Short: "Start a mwgp server",
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		if len(args) != 1 {
-			err = fmt.Errorf("excepted 1 argument as config file")
-			return
+			log.Print("[warn] no config given, idleing...")
+			for {
+				time.Sleep(100 * time.Millisecond)
+			}
 		}
 		serr := startServer(args[0])
 		if serr != nil {
@@ -47,7 +50,7 @@ var clientCmd = cobra.Command{
 	Example: "mwgp client config.json",
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		if len(args) != 1 {
-			err = fmt.Errorf("excepted 1 argument as config file")
+			err = fmt.Errorf("expected 1 argument as config file")
 			return
 		}
 		serr := startClient(args[0])

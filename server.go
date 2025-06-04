@@ -1,15 +1,15 @@
 package mwgp
 
 import (
-	"errors"
 	"fmt"
-	"golang.org/x/crypto/blake2s"
-	"golang.org/x/crypto/chacha20poly1305"
-	"golang.zx2c4.com/wireguard/device"
 	"log"
 	"net"
 	"strings"
 	"time"
+
+	"golang.org/x/crypto/blake2s"
+	"golang.org/x/crypto/chacha20poly1305"
+	"golang.zx2c4.com/wireguard/device"
 )
 
 type ServerConfigPeer struct {
@@ -158,7 +158,6 @@ type Server struct {
 
 func NewServerWithConfig(config *ServerConfig) (outServer *Server, err error) {
 	if len(config.Servers) == 0 {
-		err = errors.New("no server defined")
 		return
 	}
 
@@ -272,7 +271,14 @@ func (s *Server) extractPeer(msg *device.MessageInitiation) (sp *ServerConfigPee
 }
 
 func (s *Server) Start() (err error) {
-	log.Printf("[info] listen on %s ...\n", s.wgitTable.ClientListen)
-	err = s.wgitTable.Serve()
+	if s != nil && s.wgitTable != nil {
+		log.Printf("[info] listen on %s ...\n", s.wgitTable.ClientListen)
+		err = s.wgitTable.Serve()
+	} else {
+		log.Printf("[warn] empty config idleing...")
+		for {
+			time.Sleep(100 * time.Millisecond)
+		}
+	}
 	return
 }

@@ -1,5 +1,7 @@
 /.idea
 *.exe
+bin/*
 /mwgp
 /mwgp.test
 /profile*.out
+coverage.out

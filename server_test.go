@@ -3,9 +3,10 @@ package mwgp_test
 import (
 	_ "embed"
 	"encoding/json"
-	"github.com/flynn/json5"
-	"github.com/haruue-net/mwgp"
 	"testing"
+
+	"github.com/haruue-net/mwgp"
+	"github.com/titanous/json5"
 )
 
 func TestServerConfigMarshal(t *testing.T) {

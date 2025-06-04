@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/flynn/json5"
-	"github.com/haruue-net/mwgp"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/haruue-net/mwgp"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"github.com/titanous/json5"
 
 	_ "github.com/haruue-net/mwgp/resolvers/dns"
 	_ "github.com/haruue-net/mwgp/resolvers/hn2etxt"
@@ -109,7 +109,7 @@ func init() {
 }
 
 func startServer(configPath string) (err error) {
-	config, err := ioutil.ReadFile(configPath)
+	config, err := os.ReadFile(configPath)
 	if err != nil {
 		return
 	}
@@ -127,7 +127,7 @@ func startServer(configPath string) (err error) {
 }
 
 func startClient(configPath string) (err error) {
-	config, err := ioutil.ReadFile(configPath)
+	config, err := os.ReadFile(configPath)
 	if err != nil {
 		return
 	}

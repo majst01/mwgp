@@ -1,6 +1,6 @@
 // this config is intended to be a test of json5
 { // begin
-  "listen": ":1000",  // Listen address
+  "listen": ":51820",  // Listen address
   "timeout": 60,      // Timeout before a forwarding entry expired, in seconds
   "servers": [ // begin
     { // begin

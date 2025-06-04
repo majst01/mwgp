@@ -12,7 +12,9 @@ all: server
 
 .PHONY: server
 server:
-	go build -o bin/server github.com/haruue-net/mwgp/cmd/mwgp
+	go build -tags netgo,osusergo \
+		 -ldflags "$(LINKMODE)" \
+		 -o bin/server github.com/haruue-net/mwgp/cmd/mwgp
 	strip bin/server
 
 .PHONY: test

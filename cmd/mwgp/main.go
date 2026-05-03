@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/flynn/json5"
-	"github.com/haruue-net/mwgp"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
+
+	"github.com/haruue-net/mwgp"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"github.com/titanous/json5"
 
 	_ "github.com/haruue-net/mwgp/resolvers/dns"
 	_ "github.com/haruue-net/mwgp/resolvers/hn2etxt"
@@ -29,8 +30,10 @@ var serverCmd = cobra.Command{
 	Short: "Start a mwgp server",
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		if len(args) != 1 {
-			err = fmt.Errorf("excepted 1 argument as config file")
-			return
+			log.Print("[warn] no config given, idleing...")
+			for {
+				time.Sleep(100 * time.Millisecond)
+			}
 		}
 		serr := startServer(args[0])
 		if serr != nil {
@@ -47,7 +50,7 @@ var clientCmd = cobra.Command{
 	Example: "mwgp client config.json",
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		if len(args) != 1 {
-			err = fmt.Errorf("excepted 1 argument as config file")
+			err = fmt.Errorf("expected 1 argument as config file")
 			return
 		}
 		serr := startClient(args[0])
@@ -109,7 +112,7 @@ func init() {
 }
 
 func startServer(configPath string) (err error) {
-	config, err := ioutil.ReadFile(configPath)
+	config, err := os.ReadFile(configPath)
 	if err != nil {
 		return
 	}
@@ -127,7 +130,7 @@ func startServer(configPath string) (err error) {
 }
 
 func startClient(configPath string) (err error) {
-	config, err := ioutil.ReadFile(configPath)
+	config, err := os.ReadFile(configPath)
 	if err != nil {
 		return
 	}

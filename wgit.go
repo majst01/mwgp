@@ -141,7 +141,7 @@ func NewWireGuardIndexTranslationTable() (table *WireGuardIndexTranslationTable)
 		UpdateAllServerDestinationChan: make(chan *net.UDPAddr),
 		MaxPacketSize:                  defaultMaxPacketSize,
 	}
-	table.packetPool.New = func() interface{} {
+	table.packetPool.New = func() any {
 		return &Packet{
 			Data: make([]byte, table.MaxPacketSize),
 		}

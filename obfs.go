@@ -175,7 +175,7 @@ func (o *WireGuardObfuscator) Deobfuscate(packet *Packet) {
 	var xorKey [kObfuscateXORKeyLength]byte
 	digest.Sum(xorKey[:0])
 	o.modifyHashMaskForWireGuardHeaderConflict(xorKey[:])
-	for i := 0; i < kObfuscateXORKeyLength; i++ {
+	for i := range kObfuscateXORKeyLength {
 		packet.Data[i] ^= xorKey[i]
 	}
 
